@@ -1,23 +1,22 @@
-import React from 'react';
+import {  useEffect} from 'react';
 import styled from 'styled-components';
 
-export class Modal extends React.Component {
+export const Modal = ({modalImageUrl, closeModal}) => {
 
-    componentDidMount() {
-        document.addEventListener('keydown', this.handleKeyDown);
+  useEffect(() => {
+    const handleKeyDown = (event) => {
+      if (event.key === 'Escape') {
+        closeModal();
       }
-    
-      componentWillUnmount() {
-        document.removeEventListener('keydown', this.handleKeyDown);
-      }
-    
-      handleKeyDown = (event) => {
-        if (event.key === 'Escape') {
-          this.props.closeModal();
-        }
-      };
-    render() {
-        const {modalImageUrl, closeModal} = this.props;
+    };
+
+    document.addEventListener('keydown', handleKeyDown);
+
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [closeModal]);
+ 
         return (
     <StyledModal onClick={closeModal}>
       <div>
@@ -25,7 +24,6 @@ export class Modal extends React.Component {
       </div>
     </StyledModal>
   );
-    }
 };
 
 const StyledModal = styled.div`
