@@ -42,7 +42,11 @@ useEffect(() => {
         try {
         setLoading(true)
         const allImages = await getImagesByQuery(searchQuery, page);
-        setSearchResult(allImages.hits);
+        if (page === 1) {
+          setSearchResult(allImages.hits);
+        } else {
+          setSearchResult((prevState) => [...prevState, ...allImages.hits]);
+        }
       } catch (error) {
         console.log(error);
       } finally {
@@ -52,22 +56,7 @@ useEffect(() => {
     }
       getImmages();
 
-  }, [searchQuery])
-
-  useEffect(() => {
-    async function getImmages () {
-      try {
-          setLoading(true)
-          const allImages = await getImagesByQuery(searchQuery, page);
-          setSearchResult(prevState => [...prevState, ...allImages.hits])
-        } catch (error) {
-          console.log(error);
-        } finally {
-          setLoading(false)
-        }
-    }
-    getImmages()
-  }, [page])
+  }, [searchQuery, page])
 
  const  addMoreImages = async () => {
   setPage(prev => prev + 1);
