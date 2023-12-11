@@ -6,9 +6,7 @@ export const Searchbar = ({ onSubmit, searchQuery }) => {
   return (
     <StyledHeader>
       <form
-        onSubmit={event => {
-          onSubmit(event);
-        }}
+        onSubmit={onSubmit}
       >
         <button type="submit">
           <RxMagnifyingGlass />
